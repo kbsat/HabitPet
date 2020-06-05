@@ -45,19 +45,19 @@ public class login {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("\uB85C\uADF8\uC778");
-		lblNewLabel.setFont(new Font("±¼¸²", Font.BOLD, 25));
+		lblNewLabel.setFont(new Font("êµ´ë¦¼", Font.BOLD, 25));
 		lblNewLabel.setBounds(69, 54, 108, 45);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JTextPane txtpnId = new JTextPane();
-		txtpnId.setFont(new Font("±¼¸²", Font.PLAIN, 13));
+		txtpnId.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 13));
 		txtpnId.setText("ID");
 		txtpnId.setBounds(69, 140, 192, 24);
 		frame.getContentPane().add(txtpnId);
 		
 		JTextPane txtpnPassword = new JTextPane();
 		txtpnPassword.setText("Password");
-		txtpnPassword.setFont(new Font("±¼¸²", Font.PLAIN, 13));
+		txtpnPassword.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 13));
 		txtpnPassword.setBounds(69, 205, 192, 24);
 		frame.getContentPane().add(txtpnPassword);
 		
