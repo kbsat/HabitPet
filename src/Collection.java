@@ -18,6 +18,7 @@ import java.awt.Component;
 import javax.swing.ImageIcon;
 import java.awt.Panel;
 import java.awt.Label;
+import javax.swing.SwingConstants;
 
 public class Collection {
 
@@ -55,14 +56,9 @@ public class Collection {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("컬렉션");
-		lblNewLabel.setFont(new Font("나눔스퀘어", Font.PLAIN, 25));
+		lblNewLabel.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 25));
 		lblNewLabel.setBounds(14, 12, 118, 36);
 		frame.getContentPane().add(lblNewLabel);
-		
-		JLabel label = new JLabel("");
-		label.setBounds(14, 60, 135, 135);
-		frame.getContentPane().add(label);
-		label.setIcon(new ImageIcon("C:\\Users\\User\\Desktop\\HabitPet\\jrfarmanimals\\앵무새\\parrot_face1.gif"));
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
@@ -83,14 +79,14 @@ public class Collection {
 		
 		JLabel label_2 = new JLabel("Lv.");
 		nameTag1.add(label_2);
-		label_2.setFont(new Font("나눔고딕", Font.PLAIN, 16));
+		label_2.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		label_2.setForeground(Color.BLACK);
 		label_2.setBackground(new Color(211, 211, 211));
 		
 		JLabel lblBulldog = new JLabel("name");
 		nameTag1.add(lblBulldog);
-		lblBulldog.setFont(new Font("빙그레체", Font.PLAIN, 15));
-		lblBulldog.setBackground(new Color(205, 133, 63));
+		lblBulldog.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblBulldog.setBackground(Color.WHITE);
 		
 		JLabel label_1 = new JLabel("");
 		label_1.setBounds(182, 60, 135, 135);
@@ -103,12 +99,12 @@ public class Collection {
 		
 		JLabel label_3 = new JLabel("Lv.");
 		label_3.setForeground(Color.BLACK);
-		label_3.setFont(new Font("나눔고딕", Font.PLAIN, 16));
+		label_3.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		label_3.setBackground(new Color(211, 211, 211));
 		nameTag3.add(label_3);
 		
 		JLabel lblName = new JLabel("name");
-		lblName.setFont(new Font("빙그레체", Font.PLAIN, 15));
+		lblName.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		lblName.setBackground(Color.WHITE);
 		nameTag3.add(lblName);
 		
@@ -118,12 +114,12 @@ public class Collection {
 		
 		JLabel label_5 = new JLabel("Lv.");
 		label_5.setForeground(Color.BLACK);
-		label_5.setFont(new Font("나눔고딕", Font.PLAIN, 16));
+		label_5.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		label_5.setBackground(new Color(211, 211, 211));
 		nameTag2.add(label_5);
 		
 		JLabel lblName_1 = new JLabel("name");
-		lblName_1.setFont(new Font("빙그레체", Font.PLAIN, 15));
+		lblName_1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		lblName_1.setBackground(Color.WHITE);
 		nameTag2.add(lblName_1);
 		
@@ -133,14 +129,19 @@ public class Collection {
 		
 		JLabel label_7 = new JLabel("Lv.");
 		label_7.setForeground(Color.BLACK);
-		label_7.setFont(new Font("나눔고딕", Font.PLAIN, 16));
+		label_7.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
 		label_7.setBackground(new Color(211, 211, 211));
 		nameTag0.add(label_7);
 		
 		JLabel lblName_2 = new JLabel("name");
-		lblName_2.setFont(new Font("빙그레체", Font.PLAIN, 15));
+		lblName_2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		lblName_2.setBackground(new Color(205, 133, 63));
 		nameTag0.add(lblName_2);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(14, 60, 135, 135);
+		frame.getContentPane().add(label);
+		label.setIcon(new ImageIcon("C:\\Users\\User\\Desktop\\HabitPet\\jrfarmanimals\\앵무새\\parrot_face1.gif"));
 		frame.setBackground(new Color(169, 169, 169));
 		frame.setBounds(100, 100, 720, 456);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

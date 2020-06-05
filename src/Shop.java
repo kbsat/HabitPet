@@ -54,17 +54,17 @@ public class Shop {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblpoint = new JLabel("가 필요합니다. 구매하시겠습니까?");
-		lblpoint.setFont(new Font("빙그레체", Font.PLAIN, 15));
+		lblpoint.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		lblpoint.setBounds(227, 253, 282, 28);
 		frame.getContentPane().add(lblpoint);
 		
 		JLabel lblNewLabel_1 = new JLabel("500point");
-		lblNewLabel_1.setFont(new Font("빙그레체", Font.BOLD, 15));
+		lblNewLabel_1.setFont(new Font("맑은 고딕 Semilight", Font.BOLD, 15));
 		lblNewLabel_1.setBounds(151, 258, 83, 18);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("알은");
-		lblNewLabel_2.setFont(new Font("빙그레체", Font.PLAIN, 15));
+		lblNewLabel_2.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		lblNewLabel_2.setBounds(112, 258, 62, 18);
 		frame.getContentPane().add(lblNewLabel_2);
 		
@@ -73,7 +73,7 @@ public class Shop {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		buyBtn.setFont(new Font("나눔스퀘어", Font.PLAIN, 15));
+		buyBtn.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		buyBtn.setBounds(227, 299, 105, 27);
 		frame.getContentPane().add(buyBtn);
 	}

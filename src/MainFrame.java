@@ -51,6 +51,7 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(100, 100, 705, 410);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -61,34 +62,37 @@ public class MainFrame {
 		frame.getContentPane().add(PetImage);
 		
 		JLabel PetLevel_1 = new JLabel("깜찍이");
+		PetLevel_1.setBackground(Color.WHITE);
 		PetLevel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		PetLevel_1.setFont(new Font("휴먼엑스포", Font.PLAIN, 17));
+		PetLevel_1.setFont(new Font("맑은 고딕 Semilight", Font.BOLD, 17));
 		PetLevel_1.setBounds(35, 171, 135, 25);
 		frame.getContentPane().add(PetLevel_1);
 		
 		JLabel lblExp = new JLabel("EXP");
 		lblExp.setHorizontalAlignment(SwingConstants.CENTER);
-		lblExp.setFont(new Font("휴먼엑스포", Font.PLAIN, 14));
+		lblExp.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblExp.setBounds(35, 237, 45, 31);
 		frame.getContentPane().add(lblExp);
 		
 		JLabel lblPoint = new JLabel("Point");
 		lblPoint.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPoint.setFont(new Font("휴먼엑스포", Font.PLAIN, 14));
+		lblPoint.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		lblPoint.setBounds(35, 278, 45, 31);
 		frame.getContentPane().add(lblPoint);
 		
 		JButton btnNewButton = new JButton("컬렉션");
+		btnNewButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton.setBounds(12, 319, 78, 31);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("상점");
+		btnNewButton_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton_1.setBounds(102, 319, 78, 31);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JLabel PetLevel_1_1 = new JLabel("LV : 3");
 		PetLevel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		PetLevel_1_1.setFont(new Font("휴먼엑스포", Font.PLAIN, 17));
+		PetLevel_1_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 17));
 		PetLevel_1_1.setBounds(35, 202, 135, 25);
 		frame.getContentPane().add(PetLevel_1_1);
 		
@@ -155,10 +159,12 @@ public class MainFrame {
 		verticalBox.add(chckbxNewCheckBox_10);
 		
 		JButton btnNewButton_1_1 = new JButton("생성");
+		btnNewButton_1_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton_1_1.setBounds(483, 323, 78, 31);
 		frame.getContentPane().add(btnNewButton_1_1);
 		
 		JButton btnNewButton_1_2 = new JButton("삭제");
+		btnNewButton_1_2.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton_1_2.setBounds(575, 323, 78, 31);
 		frame.getContentPane().add(btnNewButton_1_2);
 	}
