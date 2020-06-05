@@ -3,7 +3,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		// Test¿ë Å¬·¡½º
+		// Testìš© í´ë˜ìŠ¤
 	}
 
 }
