@@ -1,6 +1,6 @@
 
 public class Animal {
-	String type; // 동물의 이미지 경로
+	String type; // 동물의 이미지 경로 dog dog_1 dog_2
 	String name; // 동물의 이름
 	int level; // 동물의 레벨
 	int exp; //  동물의 경험치 0 ~ 100

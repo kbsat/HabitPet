@@ -78,10 +78,10 @@ public class MainFrame {
 		frame.setBounds(100, 100, 705, 410);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		String dog = "dog";
 		JLabel lblImage = new JLabel("New label");
 		lblImage.setIcon(new ImageIcon(
-				".\\jrfarmanimals\\강아지\\dog.gif"));
+				".\\image\\"+dog+".gif"));
 		lblImage.setBounds(35, 26, 135, 135);
 		frame.getContentPane().add(lblImage);
 
