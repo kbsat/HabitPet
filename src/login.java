@@ -73,8 +73,8 @@ public class login {
 				 String ID = idtextField.getText();
 	                String password = pstextField.getText();
 	                try {
-	                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-	                        "root", "547418");
+	                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.200.186:3306/habitpet?serverTimezone=UTC",
+	                        "root", "dbwm73034146!");
 	    
 
 	                    PreparedStatement st = (PreparedStatement) connection
