@@ -116,7 +116,7 @@ public class Regist {
 	                String msg = "" + ID;
 	                msg += " \n";
 	                
-	                if(password != pwCheck) 
+	                if(!password.equals(pwCheck)) 
 	                {
 	                	JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
 	                	return;      
