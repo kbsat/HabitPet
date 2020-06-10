@@ -9,13 +9,22 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Regist {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField RidTextField;
+	private JTextField RpwTextField;
+	private JTextField RpwCheck;
 
 	/**
 	 * Launch the application.
@@ -50,6 +59,7 @@ public class Regist {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+
 		JLabel lblNewLabel = new JLabel("회원가입");
 		lblNewLabel.setFont(new Font("맑은 고딕 Semilight", Font.BOLD, 19));
 		lblNewLabel.setBounds(150, 12, 80, 56);
@@ -73,29 +83,76 @@ public class Regist {
 		lblNewLabel_1_2.setBounds(22, 185, 72, 40);
 		frame.getContentPane().add(lblNewLabel_1_2);
 		
-		textField = new JTextField();
-		textField.setBounds(117, 95, 150, 21);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		RidTextField = new JTextField();
+		RidTextField.setBounds(117, 95, 150, 21);
+		frame.getContentPane().add(RidTextField);
+		RidTextField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(117, 145, 150, 21);
-		frame.getContentPane().add(textField_1);
+		RpwTextField = new JTextField();
+		RpwTextField.setColumns(10);
+		RpwTextField.setBounds(117, 145, 150, 21);
+		frame.getContentPane().add(RpwTextField);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(117, 195, 150, 21);
-		frame.getContentPane().add(textField_2);
+		RpwCheck = new JTextField();
+		RpwCheck.setColumns(10);
+		RpwCheck.setBounds(117, 195, 150, 21);
+		frame.getContentPane().add(RpwCheck);
 		
-		JButton btnNewButton = new JButton("중복확인");
-		btnNewButton.setFont(new Font("돋움", Font.PLAIN, 15));
-		btnNewButton.setBounds(279, 94, 90, 23);
-		frame.getContentPane().add(btnNewButton);
+		JButton overlapCheck = new JButton("중복확인");
+		overlapCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}	});
+		overlapCheck.setFont(new Font("돋움", Font.PLAIN, 15));
+		overlapCheck.setBounds(279, 94, 90, 23);
+		frame.getContentPane().add(overlapCheck);
 		
-		JButton btnNewButton_1 = new JButton("가입");
-		btnNewButton_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(150, 273, 90, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		JButton registerButton = new JButton("가입");
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String ID = RidTextField.getText();
+                String password = RpwTextField.getText();
+                String pwCheck = RpwCheck.getText();
+
+	                String msg = "" + ID;
+	                msg += " \n";
+	                
+	                if(password != pwCheck) 
+	                {
+	                	JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+	                	return;      
+	                }
+			
+	                
+	                
+	                try {
+	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
+	                        "root", "547418");
+
+	                    String query = "INSERT INTO USER values('" + ID + "','" + password + "')";
+
+	                    Statement sta = connection.createStatement();;
+	                    int x = sta.executeUpdate(query);
+	                    if (x == 0) {
+	                        JOptionPane.showMessageDialog(null, "회원가입 실패"); 
+	                    }
+	                    else
+	                    {
+	            
+	                        JOptionPane.showMessageDialog(null,
+	                        		"환영합니다, " + msg + "님 회원 가입이 완료되었습니다");
+	                    }
+	                    
+	                    connection.close();
+	                    
+	                }   catch (Exception exception) {
+	                    exception.printStackTrace();
+	                }
+	            }
+			
+		});
+		registerButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
+		registerButton.setBounds(150, 273, 90, 23);
+		frame.getContentPane().add(registerButton);
 	}
 }
+

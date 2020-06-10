@@ -9,12 +9,20 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class login {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField idtextField;
+	private JTextField pstextField;
 
 	/**
 	 * Launch the application.
@@ -54,20 +62,55 @@ public class login {
 		lblNewLabel.setBounds(159, 52, 108, 45);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("\uB85C\uADF8\uC778");
-		btnNewButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton.setBounds(290, 167, 105, 27);
-		frame.getContentPane().add(btnNewButton);
 		
-		textField = new JTextField();
-		textField.setBounds(95, 153, 166, 24);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(95, 202, 166, 24);
-		frame.getContentPane().add(textField_1);
+		JButton loginButton = new JButton("\uB85C\uADF8\uC778");
+		loginButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				 String ID = idtextField.getText();
+	                String password = pstextField.getText();
+	                try {
+	                    Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
+	                        "root", "547418");
+	    
+
+	                    PreparedStatement st = (PreparedStatement) connection
+	                        .prepareStatement("Select ID, password from USER where ID=? AND password=?");
+
+	                    st.setString(1, ID);
+	                    st.setString(2, password);
+	                    ResultSet rs = st.executeQuery();
+	                    if (rs.next()) {
+	                    	                     
+	                        JOptionPane.showMessageDialog(null, "로그인 성공"); //로그인 성공 메시지 대신 메인프레임 띄움
+	                    } 
+	                    else 
+	                    {
+	                        JOptionPane.showMessageDialog(null, "로그인 실패: 아이디와 패스워드를 확인해주세요.");
+	                    }
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	
+
+	});
+		loginButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
+		loginButton.setBounds(290, 167, 105, 27);
+		frame.getContentPane().add(loginButton);
+		
+		idtextField = new JTextField();
+		idtextField.setBounds(95, 153, 166, 24);
+		frame.getContentPane().add(idtextField);
+		idtextField.setColumns(10);
+		
+		pstextField = new JTextField();
+		pstextField.setColumns(10);
+		pstextField.setBounds(95, 202, 166, 24);
+		frame.getContentPane().add(pstextField);
 		
 		JLabel lblNewLabel_1 = new JLabel("ID");
 		lblNewLabel_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
