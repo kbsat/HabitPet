@@ -125,10 +125,10 @@ public class Regist {
 	                
 	                
 	                try {
-	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-	                        "root", "547418");
+	                    Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.200.186:3306/habitpet?serverTimezone=UTC",
+	                        "root", "dbwm73034146!");
 
-	                    String query = "INSERT INTO USER values('" + ID + "','" + password + "')";
+	                    String query = "INSERT INTO USER values('" + ID + "','" + password +"','"+ 0 +"')";
 
 	                    Statement sta = connection.createStatement();;
 	                    int x = sta.executeUpdate(query);
