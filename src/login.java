@@ -95,44 +95,6 @@ public class login {
 				}
 			}
 		});
-					st.setString(1, ID);
-					st.setString(2, password);
-					ResultSet rs = st.executeQuery();
-					
-					if (rs.next()) {
-						int point = Integer.parseInt(rs.getString(3));
-						User user = new User(ID,point);
-						MainFrame mfr = new MainFrame(connection,user);
-						frame.setVisible(false);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "로그인 실패: 아이디와 패스워드를 확인해주세요.");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-		});
-					st.setString(1, ID);
-					st.setString(2, password);
-					ResultSet rs = st.executeQuery();
-					
-					if (rs.next()) {
-						int point = Integer.parseInt(rs.getString(3));
-						User user = new User(ID,point);
-						MainFrame mfr = new MainFrame(connection,user);
-						frame.setVisible(false);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "로그인 실패: 아이디와 패스워드를 확인해주세요.");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-		});
 		loginButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		loginButton.setBounds(290, 167, 105, 27);
 		frame.getContentPane().add(loginButton);
