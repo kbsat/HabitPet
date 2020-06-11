@@ -49,7 +49,7 @@ public class Shop {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\User\\Desktop\\HabitPet\\KakaoTalk_20200603_180951534.png"));
+		lblNewLabel.setIcon(new ImageIcon(".\\image\\egg.png"));
 		lblNewLabel.setBounds(207, 60, 160, 197);
 		frame.getContentPane().add(lblNewLabel);
 		

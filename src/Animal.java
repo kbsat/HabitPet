@@ -4,10 +4,17 @@ public class Animal {
 	String name; // 동물의 이름
 	int level; // 동물의 레벨
 	int exp; //  동물의 경험치 0 ~ 100
-	public Animal(String type) {
+	int rep; // 대표 동물인지 아닌지 1이면 true 0이면 false
+	public Animal(String name,String type) {
+		this.name = name;
 		this.type = type;
 		this.level = 1;
 		this.exp = 0;
+		this.rep = 0;
+	}
+	
+	public void SetRep() {
+		this.rep = 1;
 	}
 	
 	public void SetName(String name) {
