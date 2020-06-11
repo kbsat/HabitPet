@@ -118,5 +118,14 @@ public class login {
 		lblPw.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		lblPw.setBounds(57, 205, 35, 18);
 		frame.getContentPane().add(lblPw);
+		
+		JButton btnNewButton = new JButton("회원가입");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Regist rg = new Regist();
+			}
+		});
+		btnNewButton.setBounds(132, 264, 97, 23);
+		frame.getContentPane().add(btnNewButton);
 	}
 }

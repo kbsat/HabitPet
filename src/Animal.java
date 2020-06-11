@@ -12,7 +12,13 @@ public class Animal {
 		this.exp = 0;
 		this.rep = 0;
 	}
-	
+	public Animal(String name,String type,int level,int exp,int rep) {
+		this.name = name;
+		this.type = type;
+		this.level = level;
+		this.exp = exp;
+		this.rep = rep;
+	}
 	public void SetRep() {
 		this.rep = 1;
 	}

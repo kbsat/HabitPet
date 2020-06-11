@@ -29,19 +29,6 @@ public class Regist {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Regist window = new Regist();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the application.
 	 */
@@ -56,7 +43,6 @@ public class Regist {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(100, 100, 395, 365);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("회원가입");
@@ -147,5 +133,6 @@ public class Regist {
 		registerButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		registerButton.setBounds(150, 273, 90, 23);
 		frame.getContentPane().add(registerButton);
+		frame.setVisible(true);
 	}
 }
