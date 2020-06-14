@@ -71,10 +71,9 @@ public class login {
 				String id = idtextField.getText();
 				String password = pstextField.getText();
 				
-				connection.isUserCheck(id, password);
-				
-				login loginWindow = new login();
-				loginWindow.frame.setVisible(false); //로그인 후 로그인 윈도우 사라지게
+				User user = connection.isUserCheck(id, password);
+	        	MainFrame mfr = new MainFrame(connection.getConnection(),user);
+				frame.setVisible(false); //로그인 후 로그인 윈도우 사라지게
 				
 			}
 		});

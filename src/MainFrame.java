@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -22,9 +24,13 @@ import java.awt.Color;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ItemEvent;
 
 public class MainFrame {
@@ -36,28 +42,13 @@ public class MainFrame {
 	public Animal RepAnimal;
 	public Connection conn;
 
-	/**
-	 * Launch the application.
-	 */
-
-	public void go(Connection connection, User us) {
-		user = us;
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame window = new MainFrame(connection, us);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the application.
 	 */
 	public MainFrame(Connection connection, User user) {
+		
 		this.conn = connection;
 		this.user = user;
 		try {
@@ -101,7 +92,7 @@ public class MainFrame {
 	private void initialize() {
 		PreparedStatement st;
 		try {
-			st = (PreparedStatement) conn.prepareStatement("Select * from collection where id=? AND rep=1");
+			st = (PreparedStatement) conn.prepareStatement("Select * from collection where id=?");
 			st.setString(1, user.id);
 			ResultSet rs = st.executeQuery();
 
@@ -171,6 +162,15 @@ public class MainFrame {
 		JButton btnNewButton_1 = new JButton("상점");
 		btnNewButton_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton_1.setBounds(102, 319, 78, 31);
+		btnNewButton_1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Shop shop = new Shop(user);
+				
+			}
+			
+		});
 		frame.getContentPane().add(btnNewButton_1);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -197,6 +197,15 @@ public class MainFrame {
 				}
 				newCheckBox.setFont(new Font("굴림", Font.PLAIN, 14));
 				newCheckBox.addItemListener(new PlanCheckEvent());
+				newCheckBox.addMouseListener(new MouseAdapter(){
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if(SwingUtilities.isRightMouseButton(e)&& e.getClickCount() == 1) {
+							DeleteMenu menu = new DeleteMenu(newCheckBox,verticalBox);
+							menu.show(e.getComponent(),e.getX(),e.getY());
+						}
+					}
+				});
 				verticalBox.add(newCheckBox);
 			}
 		} catch (SQLException e1) {
@@ -226,6 +235,15 @@ public class MainFrame {
 				JCheckBox newCheckBox = new JCheckBox(newPlan);
 				newCheckBox.setFont(new Font("굴림", Font.PLAIN, 14));
 				newCheckBox.addItemListener(new PlanCheckEvent());
+				newCheckBox.addMouseListener(new MouseAdapter(){
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if(SwingUtilities.isRightMouseButton(e)&& e.getClickCount() == 1) {
+							DeleteMenu menu = new DeleteMenu(newCheckBox,verticalBox);
+							menu.show(e.getComponent(),e.getX(),e.getY());
+						}
+					}
+				});
 				verticalBox.add(newCheckBox);
 				frame.getContentPane().revalidate();
 			}
@@ -250,7 +268,7 @@ public class MainFrame {
 	class expPanel extends JPanel {
 		public void paint(Graphics g) {
 			super.paint(g);
-			g.setColor(Color.black);
+			g.setColor(Color.pink);
 			g.fillRect(0, 0, RepAnimal.exp, 20);
 		}
 	}
@@ -310,9 +328,25 @@ public class MainFrame {
 
 			lblPoint.setText(user.point + "");
 			frame.getContentPane().repaint();
-			frame.getContentPane().revalidate();
 
 		}
 	}
 
+	class DeleteMenu extends JPopupMenu {
+		JMenuItem deleteItem;
+		public DeleteMenu(JCheckBox clickedPlan,Box planBox) {
+			deleteItem = new JMenuItem("삭제");
+			deleteItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(SwingUtilities.isLeftMouseButton(e)&& e.getClickCount() == 1) {
+						clickedPlan.setVisible(false);
+						planBox.remove(clickedPlan);
+						frame.getContentPane().revalidate();
+					}
+				}
+			});
+			add(deleteItem);
+		}
+	}
 }

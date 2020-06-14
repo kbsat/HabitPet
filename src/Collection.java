@@ -1,6 +1,9 @@
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormLayout;
@@ -13,12 +16,21 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import java.awt.Panel;
 import java.awt.Label;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
+import java.awt.CardLayout;
+import java.awt.Insets;
 
 public class Collection {
 
@@ -50,10 +62,57 @@ public class Collection {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	class petPanel extends JPanel{
+		String petName;
+		String petType;
+		JLabel lblImage;
+		JLabel lblName;
+		petPanel(Animal animal){
+			setLayout(new BorderLayout(0,0));
+			setAlignmentX(Component.CENTER_ALIGNMENT);
+			petName = animal.name;
+			petType = animal.type;
+			
+			lblImage = new JLabel();
+			lblImage.setHorizontalAlignment(JLabel.CENTER);
+			lblImage.setIcon(new ImageIcon(".\\image\\" + petType + ".gif"));
+			
+			
+			lblName = new JLabel(petName);
+			lblName.setBackground(Color.WHITE);
+			lblName.setHorizontalAlignment(JLabel.CENTER);
+			lblName.setFont(new Font("맑은 고딕 Semilight", Font.BOLD, 17));
+
+			add(lblImage,BorderLayout.CENTER);
+			add(lblName,BorderLayout.SOUTH);
+			setSize(120,180);
+		}
+	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
+		
+		
+		
+		JPanel collectionPanel = new JPanel();
+		collectionPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		GridLayout gridLayout = new GridLayout(2,4);
+		collectionPanel.setLayout(gridLayout);
+		collectionPanel.setBounds(14, 58, 674, 337);
+		frame.getContentPane().add(collectionPanel);
+		
+		petPanel[] pans = new petPanel[8];
+		
+		for(int i = 0;i<8;i++) {
+			Animal an = new Animal("돌돌"+i,"dog",3,0,0);
+			pans[i] = new petPanel(an);
+			collectionPanel.add(pans[i]);
+			pans[i].setVisible(false);
+		}
+		
+		pans[0].setVisible(true);
+		pans[2].setVisible(true);
 		
 		JLabel lblNewLabel = new JLabel("컬렉션");
 		lblNewLabel.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 25));
@@ -138,10 +197,7 @@ public class Collection {
 		lblName_2.setBackground(new Color(205, 133, 63));
 		nameTag0.add(lblName_2);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(14, 60, 135, 135);
-		frame.getContentPane().add(label);
-		label.setIcon(new ImageIcon("C:\\Users\\User\\Desktop\\HabitPet\\jrfarmanimals\\앵무새\\parrot_face1.gif"));
+		
 		frame.setBackground(new Color(169, 169, 169));
 		frame.setBounds(100, 100, 720, 456);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

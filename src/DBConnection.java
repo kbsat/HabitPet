@@ -12,12 +12,15 @@ public class DBConnection {
 	private Statement st;
 	private ResultSet rs;
 	
+	public Connection getConnection() {
+		return con;
+	}
 	public DBConnection(){
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                    "root", "547418");
+                    "root", "dbwm73034146!");
 			st = con.createStatement();
 			
 		}
@@ -27,21 +30,24 @@ public class DBConnection {
 		}
 	}
 	
-	public void isUserCheck(String id, String password){ //로그인
+	public User isUserCheck(String id, String password){ //로그인
 	try {
         Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-            "root", "547418");
+            "root", "dbwm73034146!");
 
 
         PreparedStatement st = (PreparedStatement) connection
-            .prepareStatement("Select ID, password from USER where ID=? AND password=?");
+            .prepareStatement("Select * from USER where ID=? AND password=?");
 
         st.setString(1, id);
         st.setString(2, password);
         ResultSet rs = st.executeQuery();
         if (rs.next()) {
-
-        	JOptionPane.showMessageDialog(null,"로그인 성공");
+        	String id_db = rs.getString(1); 
+        	int point = rs.getInt(3);
+        	User user = new User(id_db,point);
+        	return user;
+        	
 
         } 
         else 
@@ -51,6 +57,7 @@ public class DBConnection {
     } catch (SQLException e) {
         e.printStackTrace();
     }
+	return null;
 }
 	
 	public void register(String id, String password){
@@ -60,7 +67,7 @@ public class DBConnection {
           
           try {
               Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                      "root", "547418");
+                      "root", "dbwm73034146!");
 
               String query = "INSERT INTO USER values('" + id + "','" + password +"','"+ 0 +"')";
 
@@ -88,7 +95,7 @@ public class DBConnection {
 		try {
 			Connection connection = (Connection) DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                    "root", "547418");
+                    "root", "dbwm73034146!");
 
 			PreparedStatement st = (PreparedStatement) connection
 					.prepareStatement("Select ID from USER where ID=? ");
@@ -109,34 +116,7 @@ public class DBConnection {
 		}
 	}
 	
-	public void buy(){
-	try {
-		Connection connection = (Connection) DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                "root", "547418");
 
-		PreparedStatement st = (PreparedStatement) connection
-				.prepareStatement("Select point from USER where point=? ");
-		
-		ResultSet rs = st.executeQuery();
-		int point = rs.getInt("point");
-
-		if(point <500)
-		{
-			JOptionPane.showMessageDialog(null, "포인트가 부족합니다.");
-		}
-		else 
-		{
-			point -=500;
-			JOptionPane.showMessageDialog(null, "구매 성공! 컬렉션을 확인해주세요");
-			
-		}
-	}   catch (Exception exception) {
-        exception.printStackTrace();
-    }
-	
-
-}
 
 }
 	
