@@ -86,6 +86,11 @@ public class Regist {
 		JButton overlapCheck = new JButton("중복확인");
 		overlapCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DBConnection connection = new DBConnection();
+				String id = RidTextField.getText();
+				
+				connection.dupCheck(id);
+				
 			}
 		});
 		overlapCheck.setFont(new Font("돋움", Font.PLAIN, 15));
@@ -95,39 +100,21 @@ public class Regist {
 		JButton registerButton = new JButton("가입");
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String ID = RidTextField.getText();
-				String password = RpwTextField.getText();
-				String pwCheck = RpwCheck.getText();
+				DBConnection connection = new DBConnection();
+				String id = RidTextField.getText();
+                String password = RpwTextField.getText();
+                String pwCheck = RpwCheck.getText();
 
-				String msg = "" + ID;
-				msg += " \n";
-
-				if (!password.equals(pwCheck)) {
-					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
-					return;
-				}
-
-				try {
-					Connection connection = DriverManager.getConnection(
-							"jdbc:mysql://192.168.200.186:3306/habitpet?serverTimezone=UTC", "root", "dbwm73034146!");
-
-					String query = "INSERT INTO USER values('" + ID + "','" + password + "','" + 0 + "')";
-
-					Statement sta = connection.createStatement();
-					
-					int x = sta.executeUpdate(query);
-					if (x == 0) {
-						JOptionPane.showMessageDialog(null, "회원가입 실패");
-					} else {
-						JOptionPane.showMessageDialog(null, "환영합니다, " + msg + "님 회원 가입이 완료되었습니다");
-					}
-
-					connection.close();
-
-				} catch (Exception exception) {
-					exception.printStackTrace();
-				}
-			}
+	                if(!password.equals(pwCheck)) 
+	                {
+	                	JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+	                	return;      
+	                }
+	                
+	            connection.register(id, password);
+	                
+	          
+	            }
 
 		});
 		registerButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));

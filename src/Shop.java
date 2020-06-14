@@ -71,6 +71,8 @@ public class Shop {
 		JButton buyBtn = new JButton("구매하기");
 		buyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				DBConnection connection = new DBConnection();
+				connection.buy();
 			}
 		});
 		buyBtn.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));

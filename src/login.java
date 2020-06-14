@@ -67,32 +67,15 @@ public class login {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				String ID = idtextField.getText();
+				DBConnection connection = new DBConnection();
+				String id = idtextField.getText();
 				String password = pstextField.getText();
-				try {
-					Connection connection = (Connection) DriverManager.getConnection(
-							"jdbc:mysql://192.168.200.186:3306/habitpet?serverTimezone=UTC", "root", "dbwm73034146!");
-
-					PreparedStatement st = (PreparedStatement) connection
-							.prepareStatement("Select * from USER where ID=? AND password=?");
-
-					st.setString(1, ID);
-					st.setString(2, password);
-					ResultSet rs = st.executeQuery();
-					
-					if (rs.next()) {
-						int point = Integer.parseInt(rs.getString(3));
-						User user = new User(ID,point);
-						MainFrame mfr = new MainFrame(connection,user);
-						frame.setVisible(false);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "로그인 실패: 아이디와 패스워드를 확인해주세요.");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				
+				connection.isUserCheck(id, password);
+				
+				login loginWindow = new login();
+				loginWindow.frame.setVisible(false); //로그인 후 로그인 윈도우 사라지게
+				
 			}
 		});
 		loginButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
