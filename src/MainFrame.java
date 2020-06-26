@@ -203,7 +203,7 @@ public class MainFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(SwingUtilities.isRightMouseButton(e)&& e.getClickCount() == 1) {
-							DeleteMenu menu = new DeleteMenu(newCheckBox,verticalBox);
+							DeleteMenu menu = new DeleteMenu(newCheckBox);
 							menu.show(e.getComponent(),e.getX(),e.getY());
 						}
 					}
@@ -229,7 +229,6 @@ public class MainFrame {
 					sta = conn.createStatement();
 					sta.execute(query);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -241,7 +240,7 @@ public class MainFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(SwingUtilities.isRightMouseButton(e)) {
-							DeleteMenu menu = new DeleteMenu(newCheckBox,verticalBox);
+							DeleteMenu menu = new DeleteMenu(newCheckBox);
 							menu.show(e.getComponent(),e.getX(),e.getY());
 						}
 					}
@@ -350,20 +349,29 @@ public class MainFrame {
 		}
 	}
 
+	// 딜리트 팝업 메뉴
 	class DeleteMenu extends JPopupMenu {
 		JMenuItem deleteItem;
-		public DeleteMenu(JCheckBox clickedPlan,Box planBox) {
+		public DeleteMenu(JCheckBox clickedPlan) {
 			deleteItem = new JMenuItem("삭제");
-			deleteItem.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(SwingUtilities.isLeftMouseButton(e)&& e.getClickCount() == 1) {
-						planBox.remove(clickedPlan);
-						planBox.revalidate();
-					}
-				}
-			});
+			
+			DeleteMenuActionListener deleteAction = new DeleteMenuActionListener(clickedPlan);
+			deleteItem.addActionListener(deleteAction);
 			add(deleteItem);
+		}
+	}
+	
+	// 딜리트 버튼 클릭 이벤트
+	class DeleteMenuActionListener implements ActionListener{
+		JCheckBox clickedPlan;
+		DeleteMenuActionListener(JCheckBox clickedPlan){
+			this.clickedPlan= clickedPlan;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			verticalBox.remove(clickedPlan);
+			verticalBox.revalidate();
+			verticalBox.repaint();
 		}
 	}
 }
