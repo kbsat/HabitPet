@@ -38,6 +38,8 @@ public class MainFrame {
 	private JFrame frame;
 	private JLabel lblLevel;
 	private JLabel lblPoint;
+	private JLabel lblImage;
+	private Box verticalBox;
 	public User user;
 	public Animal RepAnimal;
 	public Connection conn;
@@ -120,7 +122,7 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblImage = new JLabel("pet Image");
+		lblImage = new JLabel("pet Image");
 		lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
 		lblImage.setBounds(35, 26, 135, 135);
 		frame.getContentPane().add(lblImage);
@@ -179,7 +181,7 @@ public class MainFrame {
 		scrollPane.setBounds(228, 38, 425, 271);
 		frame.getContentPane().add(scrollPane);
 
-		Box verticalBox = Box.createVerticalBox();
+		verticalBox = Box.createVerticalBox();
 		scrollPane.setViewportView(verticalBox);
 
 		// DB에서 플랜 정보 조회
@@ -238,7 +240,7 @@ public class MainFrame {
 				newCheckBox.addMouseListener(new MouseAdapter(){
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						if(SwingUtilities.isRightMouseButton(e)&& e.getClickCount() == 1) {
+						if(SwingUtilities.isRightMouseButton(e)) {
 							DeleteMenu menu = new DeleteMenu(newCheckBox,verticalBox);
 							menu.show(e.getComponent(),e.getX(),e.getY());
 						}
@@ -280,19 +282,23 @@ public class MainFrame {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				JCheckBox check = (JCheckBox) e.getSource();
 				String plan_text = check.getText();
+				// 경험치 포인트 추가
 				RepAnimal.exp += 20;
 				user.point += 100;
+				
+				
 				System.out.println("현재 경험치는 " + RepAnimal.exp);
 
 				check.setEnabled(false);
-
 				try {
+					// 플랜을 done으로 업데이트
 					String query = "UPDATE plan SET done = 1 Where (ID = '" + user.id
 							+ "' AND plan_text = '" + plan_text + "' )";
 					Statement sta;
 					sta = conn.createStatement();
 					sta.execute(query);
 					
+					// 플랜으로 인한 경험치와 포인트 갱신
 					query = "UPDATE collection SET exp = " + RepAnimal.exp + " Where (ID = '" + user.id
 							+ "' AND rep = 1 )";
 					sta = conn.createStatement();
@@ -301,6 +307,8 @@ public class MainFrame {
 					query = "UPDATE user SET point = " + user.point + " Where (ID = '" + user.id + "')";
 					sta = conn.createStatement();
 					sta.execute(query);
+					
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -310,17 +318,26 @@ public class MainFrame {
 				RepAnimal.level += 1;
 				RepAnimal.exp -= 100;
 				lblLevel.setText("LV : " + RepAnimal.level);
+				boolean isEvolve =false;
+				if(RepAnimal.level <= 10) {
+					isEvolve = RepAnimal.Evolve(); // 조건에 맞으면 진화 , 진화를 하면 isEvolve가 참으로 바뀜
+				}
 				try {
-					String query = "UPDATE collection SET exp = " + RepAnimal.exp + " Where (ID = '" + user.id
+					String query = "UPDATE collection SET level = " + RepAnimal.level + ", exp = "+RepAnimal.exp +" Where (ID = '" + user.id
 							+ "' AND rep = 1 )";
 					Statement sta;
 					sta = conn.createStatement();
 					sta.execute(query);
-
-					query = "UPDATE collection SET level = " + RepAnimal.level + " Where (ID = '" + user.id
-							+ "' AND rep = 1 )";
-					sta = conn.createStatement();
-					sta.execute(query);
+					
+					// 만약 진화가 되었다면 collection의 타입을 바꾸어주고 표시되는 이미지를 교체해준다.
+					if(isEvolve) {
+						query = "UPDATE collection SET type = '" + RepAnimal.type + "' Where ( ID = '" + user.id + "' AND rep = 1)";
+						sta = conn.createStatement();
+						sta.execute(query);
+						lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
+						
+					}
+					
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -328,6 +345,7 @@ public class MainFrame {
 
 			lblPoint.setText(user.point + "");
 			frame.getContentPane().repaint();
+			frame.getContentPane().revalidate();
 
 		}
 	}
@@ -340,9 +358,8 @@ public class MainFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(SwingUtilities.isLeftMouseButton(e)&& e.getClickCount() == 1) {
-						clickedPlan.setVisible(false);
 						planBox.remove(clickedPlan);
-						frame.getContentPane().revalidate();
+						planBox.revalidate();
 					}
 				}
 			});

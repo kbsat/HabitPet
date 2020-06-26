@@ -27,6 +27,18 @@ public class Animal {
 		this.name = name;
 	}
 	
+	public boolean Evolve() {
+		if(level >= 5 && !type.contains("_1")) {
+			type += "_1";
+			return true;
+		}
+		else if(level >= 10 && type.contains("_1")) {
+			type = type.replace("_1", "_2");
+			return true;
+		}
+		
+		return false;
+	}
 	
 	
 }
