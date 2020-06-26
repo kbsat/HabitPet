@@ -121,5 +121,6 @@ public class Regist {
 		registerButton.setBounds(150, 273, 90, 23);
 		frame.getContentPane().add(registerButton);
 		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 }

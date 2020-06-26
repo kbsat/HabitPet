@@ -109,5 +109,6 @@ public class login {
 		});
 		btnNewButton.setBounds(132, 264, 97, 23);
 		frame.getContentPane().add(btnNewButton);
+		frame.setResizable(false);
 	}
 }

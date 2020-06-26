@@ -21,6 +21,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
+import java.awt.Dialog;
+
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -103,6 +105,7 @@ public class MainFrame {
 				int animalExp = rs.getInt(5);
 				int animalRep = rs.getInt(6);
 
+				// DB에서 동물들을 꺼내 user.collection에 담음
 				Animal animal = new Animal(animalName, animalType, animalLevel, animalExp, animalRep);
 				user.collection.add(animal);
 				if (animalRep == 1) {
@@ -157,6 +160,12 @@ public class MainFrame {
 		JButton btnNewButton = new JButton("컬렉션");
 		btnNewButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		btnNewButton.setBounds(12, 319, 109, 31);
+		btnNewButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Collection col = new Collection(conn,user);
+			}});
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("상점");
@@ -255,6 +264,7 @@ public class MainFrame {
 		frame.getContentPane().add(expPanel);
 
 		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 
 	// 경험치 그래픽표현
