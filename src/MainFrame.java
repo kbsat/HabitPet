@@ -44,13 +44,11 @@ public class MainFrame {
 	public Animal RepAnimal;
 	public Connection conn;
 
-	
-
 	/**
 	 * Create the application.
 	 */
 	public MainFrame(Connection connection, User user) {
-		
+
 		this.conn = connection;
 		this.user = user;
 		try {
@@ -158,20 +156,20 @@ public class MainFrame {
 
 		JButton btnNewButton = new JButton("컬렉션");
 		btnNewButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton.setBounds(12, 319, 78, 31);
+		btnNewButton.setBounds(12, 319, 109, 31);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("상점");
 		btnNewButton_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(102, 319, 78, 31);
+		btnNewButton_1.setBounds(133, 319, 78, 31);
 		btnNewButton_1.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Shop shop = new Shop(user);
-				
+
 			}
-			
+
 		});
 		frame.getContentPane().add(btnNewButton_1);
 
@@ -190,21 +188,20 @@ public class MainFrame {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				JCheckBox newCheckBox = new JCheckBox(rs.getString(2));
-				if(rs.getInt(3) == 0) {
+				if (rs.getInt(3) == 0) {
 					newCheckBox.setSelected(false);
-				}
-				else {
+				} else {
 					newCheckBox.setSelected(true);
 					newCheckBox.setEnabled(false);
 				}
 				newCheckBox.setFont(new Font("굴림", Font.PLAIN, 14));
 				newCheckBox.addItemListener(new PlanCheckEvent());
-				newCheckBox.addMouseListener(new MouseAdapter(){
+				newCheckBox.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						if(SwingUtilities.isRightMouseButton(e)&& e.getClickCount() == 1) {
+						if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
 							DeleteMenu menu = new DeleteMenu(newCheckBox);
-							menu.show(e.getComponent(),e.getX(),e.getY());
+							menu.show(e.getComponent(), e.getX(), e.getY());
 						}
 					}
 				});
@@ -231,17 +228,17 @@ public class MainFrame {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				System.out.println("버튼 생성 완료");
 				JCheckBox newCheckBox = new JCheckBox(newPlan);
 				newCheckBox.setFont(new Font("굴림", Font.PLAIN, 14));
 				newCheckBox.addItemListener(new PlanCheckEvent());
-				newCheckBox.addMouseListener(new MouseAdapter(){
+				newCheckBox.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						if(SwingUtilities.isRightMouseButton(e)) {
+						if (SwingUtilities.isRightMouseButton(e)) {
 							DeleteMenu menu = new DeleteMenu(newCheckBox);
-							menu.show(e.getComponent(),e.getX(),e.getY());
+							menu.show(e.getComponent(), e.getX(), e.getY());
 						}
 					}
 				});
@@ -250,13 +247,8 @@ public class MainFrame {
 			}
 		});
 		btnNewButton_1_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1_1.setBounds(483, 323, 78, 31);
+		btnNewButton_1_1.setBounds(544, 319, 109, 31);
 		frame.getContentPane().add(btnNewButton_1_1);
-
-		JButton btnNewButton_1_2 = new JButton("삭제");
-		btnNewButton_1_2.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1_2.setBounds(575, 323, 78, 31);
-		frame.getContentPane().add(btnNewButton_1_2);
 
 		expPanel expPanel = new expPanel();
 		expPanel.setBounds(77, 241, 101, 21);
@@ -284,19 +276,18 @@ public class MainFrame {
 				// 경험치 포인트 추가
 				RepAnimal.exp += 20;
 				user.point += 100;
-				
-				
+
 				System.out.println("현재 경험치는 " + RepAnimal.exp);
 
 				check.setEnabled(false);
 				try {
 					// 플랜을 done으로 업데이트
-					String query = "UPDATE plan SET done = 1 Where (ID = '" + user.id
-							+ "' AND plan_text = '" + plan_text + "' )";
+					String query = "UPDATE plan SET done = 1 Where (ID = '" + user.id + "' AND plan_text = '"
+							+ plan_text + "' )";
 					Statement sta;
 					sta = conn.createStatement();
 					sta.execute(query);
-					
+
 					// 플랜으로 인한 경험치와 포인트 갱신
 					query = "UPDATE collection SET exp = " + RepAnimal.exp + " Where (ID = '" + user.id
 							+ "' AND rep = 1 )";
@@ -306,8 +297,7 @@ public class MainFrame {
 					query = "UPDATE user SET point = " + user.point + " Where (ID = '" + user.id + "')";
 					sta = conn.createStatement();
 					sta.execute(query);
-					
-					
+
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -317,26 +307,27 @@ public class MainFrame {
 				RepAnimal.level += 1;
 				RepAnimal.exp -= 100;
 				lblLevel.setText("LV : " + RepAnimal.level);
-				boolean isEvolve =false;
-				if(RepAnimal.level <= 10) {
+				boolean isEvolve = false;
+				if (RepAnimal.level <= 10) {
 					isEvolve = RepAnimal.Evolve(); // 조건에 맞으면 진화 , 진화를 하면 isEvolve가 참으로 바뀜
 				}
 				try {
-					String query = "UPDATE collection SET level = " + RepAnimal.level + ", exp = "+RepAnimal.exp +" Where (ID = '" + user.id
-							+ "' AND rep = 1 )";
+					String query = "UPDATE collection SET level = " + RepAnimal.level + ", exp = " + RepAnimal.exp
+							+ " Where (ID = '" + user.id + "' AND rep = 1 )";
 					Statement sta;
 					sta = conn.createStatement();
 					sta.execute(query);
-					
+
 					// 만약 진화가 되었다면 collection의 타입을 바꾸어주고 표시되는 이미지를 교체해준다.
-					if(isEvolve) {
-						query = "UPDATE collection SET type = '" + RepAnimal.type + "' Where ( ID = '" + user.id + "' AND rep = 1)";
+					if (isEvolve) {
+						query = "UPDATE collection SET type = '" + RepAnimal.type + "' Where ( ID = '" + user.id
+								+ "' AND rep = 1)";
 						sta = conn.createStatement();
 						sta.execute(query);
 						lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
-						
+
 					}
-					
+
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -352,26 +343,41 @@ public class MainFrame {
 	// 딜리트 팝업 메뉴
 	class DeleteMenu extends JPopupMenu {
 		JMenuItem deleteItem;
+
 		public DeleteMenu(JCheckBox clickedPlan) {
 			deleteItem = new JMenuItem("삭제");
-			
+
 			DeleteMenuActionListener deleteAction = new DeleteMenuActionListener(clickedPlan);
 			deleteItem.addActionListener(deleteAction);
 			add(deleteItem);
 		}
 	}
-	
+
 	// 딜리트 버튼 클릭 이벤트
-	class DeleteMenuActionListener implements ActionListener{
+	class DeleteMenuActionListener implements ActionListener {
 		JCheckBox clickedPlan;
-		DeleteMenuActionListener(JCheckBox clickedPlan){
-			this.clickedPlan= clickedPlan;
+
+		DeleteMenuActionListener(JCheckBox clickedPlan) {
+			this.clickedPlan = clickedPlan;
 		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			verticalBox.remove(clickedPlan);
 			verticalBox.revalidate();
 			verticalBox.repaint();
+			
+			String removedPlanName = clickedPlan.getText();
+
+			try {
+				String query = "delete from plan where (id = '" + user.id + "' and plan_text = '" + removedPlanName
+						+ "');";
+				Statement sta;
+				sta = conn.createStatement();
+				sta.execute(query);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
