@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,22 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
-import java.awt.Dialog;
-
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
@@ -39,20 +33,19 @@ public class MainFrame {
 
 	private JFrame frame;
 	private JLabel lblLevel;
+	private JLabel lblName;
 	private JLabel lblPoint;
 	private JLabel lblImage;
 	private Box verticalBox;
-	public User user;
 	public Animal RepAnimal;
+	public DBConnection dbConnection;
+	public User user;
 	public Connection conn;
 
-	/**
-	 * Create the application.
-	 */
-	public MainFrame(Connection connection, User user) {
-
-		this.conn = connection;
-		this.user = user;
+	public MainFrame(DBConnection connection) {
+		this.dbConnection = connection;
+		this.user = dbConnection.user;
+		conn = connection.getConnection();
 		try {
 			PreparedStatement st = (PreparedStatement) conn.prepareStatement("Select * from collection where ID=?");
 			st.setString(1, user.id);
@@ -74,11 +67,7 @@ public class MainFrame {
 
 				Animal firstPet = new Animal(firstPetName, "dog");
 				firstPet.SetRep();
-
-				String query = "INSERT INTO collection values('" + user.id + "','" + firstPet.type + "','"
-						+ firstPet.name + "','" + firstPet.level + "','" + firstPet.exp + "','" + firstPet.rep + "')";
-				Statement sta = conn.createStatement();
-				sta.execute(query);
+				dbConnection.InsertFirstPet(firstPet);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -87,35 +76,8 @@ public class MainFrame {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-
 	private void initialize() {
-		PreparedStatement st;
-		try {
-			st = (PreparedStatement) conn.prepareStatement("Select * from collection where id=?");
-			st.setString(1, user.id);
-			ResultSet rs = st.executeQuery();
-
-			while (rs.next()) {
-				String animalType = rs.getString(2);
-				String animalName = rs.getString(3);
-				int animalLevel = rs.getInt(4);
-				int animalExp = rs.getInt(5);
-				int animalRep = rs.getInt(6);
-
-				// DB에서 동물들을 꺼내 user.collection에 담음
-				Animal animal = new Animal(animalName, animalType, animalLevel, animalExp, animalRep);
-				user.collection.add(animal);
-				if (animalRep == 1) {
-					RepAnimal = animal;
-				}
-			}
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		RepAnimal = dbConnection.LoadAnimalData();
 
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -128,7 +90,7 @@ public class MainFrame {
 		lblImage.setBounds(35, 26, 135, 135);
 		frame.getContentPane().add(lblImage);
 
-		JLabel lblName = new JLabel(RepAnimal.name);
+		lblName = new JLabel(RepAnimal.name);
 		lblName.setBackground(Color.WHITE);
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("맑은 고딕 Semilight", Font.BOLD, 17));
@@ -157,34 +119,43 @@ public class MainFrame {
 		lblPointName.setBounds(35, 278, 45, 31);
 		frame.getContentPane().add(lblPointName);
 
-		JButton btnNewButton = new JButton("컬렉션");
-		btnNewButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton.setBounds(12, 319, 109, 31);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton collectionButton = new JButton("컬렉션");
+		collectionButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
+		collectionButton.setBounds(12, 319, 109, 31);
+		collectionButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Collection collectionFrame = new Collection(dbConnection.con,dbConnection.user);
+
+				collectionChangeChecking changeChecking = new collectionChangeChecking(collectionFrame);
+				Thread collectionChangeCheckingThread = new Thread(changeChecking);
+				collectionChangeCheckingThread.start();
+
+			}
+		});
+		frame.getContentPane().add(collectionButton);
+
+		JButton shopButton = new JButton("상점");
+		shopButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
+		shopButton.setBounds(133, 319, 78, 31);
+		shopButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Collection col = new Collection(conn,user);
-			}});
-		frame.getContentPane().add(btnNewButton);
+				Shop shopFrame = new Shop(user, conn);
 
-		JButton btnNewButton_1 = new JButton("상점");
-		btnNewButton_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(133, 319, 78, 31);
-		btnNewButton_1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Shop shop = new Shop(user);
+				shopChangeChecking shopChangeChecking = new shopChangeChecking(shopFrame);
+				Thread shopChangeCheckingThread = new Thread(shopChangeChecking);
+				shopChangeCheckingThread.start();
 
 			}
 
 		});
-		frame.getContentPane().add(btnNewButton_1);
+		frame.getContentPane().add(shopButton);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(228, 38, 425, 271);
 		frame.getContentPane().add(scrollPane);
 
@@ -193,7 +164,8 @@ public class MainFrame {
 
 		// DB에서 플랜 정보 조회
 		try {
-			st = (PreparedStatement) conn.prepareStatement("SELECT * FROM plan WHERE ID='" + user.id + "'");
+			PreparedStatement st = (PreparedStatement) conn
+					.prepareStatement("SELECT * FROM plan WHERE ID='" + user.id + "'");
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				JCheckBox newCheckBox = new JCheckBox(rs.getString(2));
@@ -220,8 +192,8 @@ public class MainFrame {
 			e1.printStackTrace();
 		}
 
-		JButton btnNewButton_1_1 = new JButton("생성");
-		btnNewButton_1_1.addActionListener(new ActionListener() {
+		JButton createButton = new JButton("생성");
+		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newPlan = JOptionPane.showInputDialog("생성할 계획을 적으세요");
 				if (newPlan == null || newPlan.equals("")) {
@@ -229,14 +201,7 @@ public class MainFrame {
 					return;
 				}
 
-				try {
-					String query = "INSERT INTO plan values('" + user.id + "','" + newPlan + "', 0)";
-					Statement sta;
-					sta = conn.createStatement();
-					sta.execute(query);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				dbConnection.InsertPlan(newPlan);
 
 				System.out.println("버튼 생성 완료");
 				JCheckBox newCheckBox = new JCheckBox(newPlan);
@@ -255,9 +220,9 @@ public class MainFrame {
 				frame.getContentPane().revalidate();
 			}
 		});
-		btnNewButton_1_1.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
-		btnNewButton_1_1.setBounds(544, 319, 109, 31);
-		frame.getContentPane().add(btnNewButton_1_1);
+		createButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
+		createButton.setBounds(544, 319, 109, 31);
+		frame.getContentPane().add(createButton);
 
 		expPanel expPanel = new expPanel();
 		expPanel.setBounds(77, 241, 101, 21);
@@ -290,28 +255,12 @@ public class MainFrame {
 				System.out.println("현재 경험치는 " + RepAnimal.exp);
 
 				check.setEnabled(false);
-				try {
-					// 플랜을 done으로 업데이트
-					String query = "UPDATE plan SET done = 1 Where (ID = '" + user.id + "' AND plan_text = '"
-							+ plan_text + "' )";
-					Statement sta;
-					sta = conn.createStatement();
-					sta.execute(query);
+				// 플랜을 done으로 업데이트
+				dbConnection.SetPlanDone(plan_text);
 
-					// 플랜으로 인한 경험치와 포인트 갱신
-					query = "UPDATE collection SET exp = " + RepAnimal.exp + " Where (ID = '" + user.id
-							+ "' AND rep = 1 )";
-					sta = conn.createStatement();
-					sta.execute(query);
-
-					query = "UPDATE user SET point = " + user.point + " Where (ID = '" + user.id + "')";
-					sta = conn.createStatement();
-					sta.execute(query);
-
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// 플랜으로 인한 경험치와 포인트 갱신
+				dbConnection.UpdatePoint(RepAnimal);
+				dbConnection.UpdateExp(RepAnimal);
 			}
 			if (RepAnimal.exp >= 100) {
 				RepAnimal.level += 1;
@@ -321,25 +270,9 @@ public class MainFrame {
 				if (RepAnimal.level <= 10) {
 					isEvolve = RepAnimal.Evolve(); // 조건에 맞으면 진화 , 진화를 하면 isEvolve가 참으로 바뀜
 				}
-				try {
-					String query = "UPDATE collection SET level = " + RepAnimal.level + ", exp = " + RepAnimal.exp
-							+ " Where (ID = '" + user.id + "' AND rep = 1 )";
-					Statement sta;
-					sta = conn.createStatement();
-					sta.execute(query);
-
-					// 만약 진화가 되었다면 collection의 타입을 바꾸어주고 표시되는 이미지를 교체해준다.
-					if (isEvolve) {
-						query = "UPDATE collection SET type = '" + RepAnimal.type + "' Where ( ID = '" + user.id
-								+ "' AND rep = 1)";
-						sta = conn.createStatement();
-						sta.execute(query);
-						lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
-
-					}
-
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				dbConnection.LevelUp(isEvolve, RepAnimal);
+				if(isEvolve) {
+					lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
 				}
 			}
 
@@ -376,18 +309,73 @@ public class MainFrame {
 			verticalBox.remove(clickedPlan);
 			verticalBox.revalidate();
 			verticalBox.repaint();
-			
+
 			String removedPlanName = clickedPlan.getText();
 
-			try {
-				String query = "delete from plan where (id = '" + user.id + "' and plan_text = '" + removedPlanName
-						+ "');";
-				Statement sta;
-				sta = conn.createStatement();
-				sta.execute(query);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			dbConnection.DeletePlan(removedPlanName);
+		}
+	}
+
+	class collectionChangeChecking implements Runnable {
+		Collection collectionFrame;
+
+		collectionChangeChecking(Collection collectionFrame) {
+			this.collectionFrame = collectionFrame;
+		}
+
+		@Override
+		public void run() {
+
+			frame.setEnabled(false);// 화면을 사용못하게 중지 ( collection이 종료될 때까지 제어 못함, 모달방식 )
+			while (collectionFrame.frame.isVisible()) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+
+			frame.setEnabled(true); // 다시 메인프레임 사용가능하도록 바꾸기
+			frame.requestFocus(); // 최소화 되었을 때 다시 스크린 맨 앞으로 띄워주는 것
+
+			// 컬렉션에서 대표동물이 만약 바뀌었다면 메인화면의 요소들을 바꿔준다.
+			if (collectionFrame.checking == true && RepAnimal != collectionFrame.repAnimal) {
+				RepAnimal = collectionFrame.repAnimal;
+				lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
+				lblName.setText(RepAnimal.name);
+				lblLevel.setText("LV : " + RepAnimal.level);
+
+				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
+			}
+		}
+	}
+
+	class shopChangeChecking implements Runnable {
+		Shop shopFrame;
+
+		shopChangeChecking(Shop shopFrame) {
+			this.shopFrame = shopFrame;
+		}
+
+		@Override
+		public void run() {
+
+			frame.setEnabled(false);// 화면을 사용못하게 중지 ( collection이 종료될 때까지 제어 못함, 모달방식 )
+			while (shopFrame.frame.isVisible()) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			frame.setEnabled(true); // 다시 메인프레임 사용가능하도록 바꾸기
+			frame.requestFocus(); // 최소화 되었을 때 다시 스크린 맨 앞으로 띄워주는 것
+
+			lblPoint.setText(user.point + "");
+			frame.getContentPane().revalidate();
+			frame.getContentPane().repaint();
 		}
 	}
 }

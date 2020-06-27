@@ -1,22 +1,12 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.JRadioButton;
 import java.awt.Font;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class login {
 
@@ -72,7 +62,7 @@ public class login {
 				String password = pstextField.getText();
 				
 				User user = connection.isUserCheck(id, password);
-	        	MainFrame mfr = new MainFrame(connection.getConnection(),user);
+	        	new MainFrame(connection);
 				frame.setVisible(false); //로그인 후 로그인 윈도우 사라지게
 				
 			}
