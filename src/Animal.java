@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Animal {
 	String type; // 동물의 이미지 경로
@@ -19,6 +20,8 @@ public class Animal {
 		this.exp = exp;
 		this.rep = rep;
 	}
+	
+
 	public void SetRep() {
 		this.rep = 1;
 	}

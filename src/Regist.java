@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JTextPane;
 
 public class Regist {
 
@@ -98,8 +99,13 @@ public class Regist {
 		frame.getContentPane().add(overlapCheck);
 
 		JButton registerButton = new JButton("가입");
+		registerButton.setEnabled(false);
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				/*	if(arg0.getActionCommand() == "중복확인"){
+					registerButton.setEnabled(true); //아이디 중복 진행하지 않으면 가입버튼 비활성화
+				} */
+				
 				DBConnection connection = new DBConnection();
 				String id = RidTextField.getText();
                 String password = RpwTextField.getText();
@@ -120,6 +126,12 @@ public class Regist {
 		registerButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		registerButton.setBounds(150, 273, 90, 23);
 		frame.getContentPane().add(registerButton);
+		
+		JTextPane txtpnId = new JTextPane();
+		txtpnId.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		txtpnId.setText("ID 중복 여부를 확인해주세요");
+		txtpnId.setBounds(109, 237, 184, 24);
+		frame.getContentPane().add(txtpnId);
 		frame.setVisible(true);
 		frame.setResizable(false);
 	}

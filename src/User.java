@@ -13,26 +13,3 @@ public class User {
 	
 }
 
-/*public class User {
-	private String id;
-    private String password;
-    private String point;
-
-    public String getID() {
-        return id;
-    }
-    public void setID(String id) {
-        this.id = id;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getPoint() {
-        return point;
-    }
-    public void setPoint(String point) {
-        this.point = point;
-    } */

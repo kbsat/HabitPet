@@ -20,7 +20,7 @@ public class DBConnection {
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                    "root", "dbwm73034146!");
+                    "root", "547418");
 			st = con.createStatement();
 			
 		}
@@ -33,7 +33,7 @@ public class DBConnection {
 	public User isUserCheck(String id, String password){ //로그인
 	try {
         Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-            "root", "dbwm73034146!");
+            "root", "547418");
 
 
         PreparedStatement st = (PreparedStatement) connection
@@ -67,7 +67,7 @@ public class DBConnection {
           
           try {
               Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                      "root", "dbwm73034146!");
+                      "root", "547418");
 
               String query = "INSERT INTO USER values('" + id + "','" + password +"','"+ 0 +"')";
 
@@ -95,7 +95,7 @@ public class DBConnection {
 		try {
 			Connection connection = (Connection) DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC",
-                    "root", "dbwm73034146!");
+                    "root", "547418");
 
 			PreparedStatement st = (PreparedStatement) connection
 					.prepareStatement("Select ID from USER where ID=? ");
@@ -114,8 +114,7 @@ public class DBConnection {
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 		}
-	}
-	
+	}	
 
 
 }
