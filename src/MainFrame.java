@@ -55,7 +55,7 @@ public class MainFrame {
 			if (!rs.next()) {
 				String firstPetName;
 				while (true) {
-					firstPetName = JOptionPane.showInputDialog("강아지의 이름을 정해주세요");
+					firstPetName = JOptionPane.showInputDialog("펫의 이름을 정해주세요");
 					if (firstPetName == null || firstPetName.equals("")) {
 						JOptionPane.showMessageDialog(null, "다시 입력하세요");
 					} else if (firstPetName.getBytes().length >= 20) {

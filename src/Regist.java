@@ -75,27 +75,24 @@ public class Regist {
 		RpwCheck.setBounds(117, 195, 150, 21);
 		frame.getContentPane().add(RpwCheck);
 
-		JButton overlapCheck = new JButton("중복확인");
-		overlapCheck.addActionListener(new ActionListener() {
+		JButton duplicationCheck = new JButton("중복확인");
+		JButton registerButton = new JButton("가입");
+		registerButton.setEnabled(false);
+		duplicationCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DBConnection connection = new DBConnection();
 				String id = RidTextField.getText();
 				
 				connection.dupCheck(id);
-				
+				registerButton.setEnabled(true);
 			}
 		});
-		overlapCheck.setFont(new Font("돋움", Font.PLAIN, 15));
-		overlapCheck.setBounds(279, 94, 90, 23);
-		frame.getContentPane().add(overlapCheck);
+		duplicationCheck.setFont(new Font("돋움", Font.PLAIN, 15));
+		duplicationCheck.setBounds(279, 94, 90, 23);
+		frame.getContentPane().add(duplicationCheck);
 
-		JButton registerButton = new JButton("가입");
-		registerButton.setEnabled(false);
 		registerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				/*	if(arg0.getActionCommand() == "중복확인"){
-					registerButton.setEnabled(true); //아이디 중복 진행하지 않으면 가입버튼 비활성화
-				} */
+			public void actionPerformed(ActionEvent arg0) {		
 				
 				DBConnection connection = new DBConnection();
 				String id = RidTextField.getText();
