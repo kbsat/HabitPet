@@ -22,7 +22,7 @@ public class DBConnection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/habitpet?serverTimezone=UTC", "root",
-					"547418");
+					"dbwm73034146!");
 			statement = con.createStatement();
 		} catch (Exception e) {
 			System.out.println("데이터 베이스 연결 오류: " + e.getMessage());

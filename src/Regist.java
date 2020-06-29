@@ -75,8 +75,12 @@ public class Regist {
 		RpwCheck.setBounds(117, 195, 150, 21);
 		frame.getContentPane().add(RpwCheck);
 
-		JButton duplicationCheck = new JButton("중복확인");
-		JButton registerButton = new JButton("가입");
+		JButton duplicationCheck = new RoundedButton("중복확인");
+		duplicationCheck.setForeground(Color.white);
+		duplicationCheck.setBackground(Color.gray);
+		JButton registerButton = new RoundedButton("가입");
+		registerButton.setForeground(Color.white);
+		registerButton.setBackground(Color.gray);
 		registerButton.setEnabled(false);
 		duplicationCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -119,13 +119,15 @@ public class MainFrame {
 		lblPointName.setBounds(35, 278, 45, 31);
 		frame.getContentPane().add(lblPointName);
 
-		JButton collectionButton = new JButton("컬렉션");
+		JButton collectionButton = new RoundedButton("컬렉션");
+		collectionButton.setForeground(Color.white);
+		collectionButton.setBackground(new Color(95, 138, 212));
 		collectionButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		collectionButton.setBounds(12, 319, 109, 31);
 		collectionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Collection collectionFrame = new Collection(dbConnection.con,dbConnection.user);
+				Collection collectionFrame = new Collection(dbConnection.con, dbConnection.user);
 
 				collectionChangeChecking changeChecking = new collectionChangeChecking(collectionFrame);
 				Thread collectionChangeCheckingThread = new Thread(changeChecking);
@@ -135,7 +137,9 @@ public class MainFrame {
 		});
 		frame.getContentPane().add(collectionButton);
 
-		JButton shopButton = new JButton("상점");
+		JButton shopButton = new RoundedButton("상점");
+		shopButton.setForeground(Color.white);
+		shopButton.setBackground(new Color(95, 138, 212));
 		shopButton.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 15));
 		shopButton.setBounds(133, 319, 78, 31);
 		shopButton.addActionListener(new ActionListener() {
@@ -192,7 +196,9 @@ public class MainFrame {
 			e1.printStackTrace();
 		}
 
-		JButton createButton = new JButton("생성");
+		JButton createButton = new RoundedButton("생성");
+		createButton.setForeground(Color.white);
+		createButton.setBackground(new Color(140, 224, 94 ));
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String newPlan = JOptionPane.showInputDialog("생성할 계획을 적으세요");
@@ -271,7 +277,7 @@ public class MainFrame {
 					isEvolve = RepAnimal.Evolve(); // 조건에 맞으면 진화 , 진화를 하면 isEvolve가 참으로 바뀜
 				}
 				dbConnection.LevelUp(isEvolve, RepAnimal);
-				if(isEvolve) {
+				if (isEvolve) {
 					lblImage.setIcon(new ImageIcon(".\\image\\" + RepAnimal.type + ".gif"));
 				}
 			}

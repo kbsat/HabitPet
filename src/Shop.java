@@ -56,7 +56,14 @@ public class Shop {
 		lblNewLabel_2.setBounds(112, 258, 62, 18);
 		frame.getContentPane().add(lblNewLabel_2);
 
-		JButton buyBtn = new JButton("구매하기");
+		JLabel lblNewLabel_3 = new JLabel();
+	      lblNewLabel_3.setBounds(14, 0, 204, 75);
+	      frame.getContentPane().add(lblNewLabel_3);
+	      lblNewLabel_3.setIcon(new ImageIcon(".\\image\\shopLogo.jpg"));
+	      
+		JButton buyBtn = new RoundedButton("구매하기");
+		buyBtn.setForeground(Color.darkGray);
+		buyBtn.setBackground(new Color(252, 238, 116));
 		buyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				buy();

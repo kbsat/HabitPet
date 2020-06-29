@@ -109,10 +109,12 @@ public class Collection {
 			collectionPanel.add(petPanel);
 		}
 
-		JLabel lblNewLabel = new JLabel("컬렉션");
+		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setFont(new Font("맑은 고딕 Semilight", Font.PLAIN, 25));
-		lblNewLabel.setBounds(14, 12, 118, 36);
+		lblNewLabel.setBounds(14, 0, 219, 61);
 		frame.getContentPane().add(lblNewLabel);
+		
+	    lblNewLabel.setIcon(new ImageIcon(".\\image\\collectionLogo.png"));
 
 		frame.setBackground(new Color(169, 169, 169));
 		frame.setBounds(100, 100, 720, 456);
